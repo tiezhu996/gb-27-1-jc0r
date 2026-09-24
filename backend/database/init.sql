@@ -115,6 +115,21 @@ CREATE TABLE IF NOT EXISTS attendance_records (
   check_in_time TIMESTAMP,
   sign_in_duration INT NOT NULL DEFAULT 0,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE(live_class_id, student_id)
+);
+
+CREATE TABLE IF NOT EXISTS check_in_sessions (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  live_class_id UUID NOT NULL REFERENCES live_classes(id) ON DELETE CASCADE,
+  teacher_id UUID NOT NULL REFERENCES users(id),
+  duration_minutes INT NOT NULL,
+  grace_minutes INT NOT NULL DEFAULT 0,
+  started_at TIMESTAMP NOT NULL,
+  present_end_at TIMESTAMP NOT NULL,
+  late_end_at TIMESTAMP NOT NULL,
+  closed_at TIMESTAMP,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -131,3 +146,5 @@ CREATE INDEX IF NOT EXISTS idx_submissions_assignment ON assignment_submissions(
 CREATE INDEX IF NOT EXISTS idx_submissions_student ON assignment_submissions(student_id);
 CREATE INDEX IF NOT EXISTS idx_attendance_live ON attendance_records(live_class_id);
 CREATE INDEX IF NOT EXISTS idx_attendance_student ON attendance_records(student_id);
+CREATE UNIQUE INDEX IF NOT EXISTS uq_attendance_live_student ON attendance_records(live_class_id, student_id);
+CREATE INDEX IF NOT EXISTS idx_check_in_sessions_live ON check_in_sessions(live_class_id);
