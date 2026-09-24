@@ -26,7 +26,7 @@ export class LiveClass {
   @Column()
   teacherId: string;
 
-  @Column({ type: 'enum', enum: LiveClassStatus, default: LiveClassStatus.SCHEDULED })
+  @Column({ type: 'simple-enum', enum: LiveClassStatus, default: LiveClassStatus.SCHEDULED })
   status: LiveClassStatus;
 
   @Column({ type: 'int', default: 200 })

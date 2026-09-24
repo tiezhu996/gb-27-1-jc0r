@@ -29,7 +29,7 @@ export class User {
   @Column({ nullable: true })
   password: string;
 
-  @Column({ type: 'enum', enum: UserRole, default: UserRole.STUDENT })
+  @Column({ type: 'simple-enum', enum: UserRole, default: UserRole.STUDENT })
   role: UserRole;
 
   @Column()
@@ -38,7 +38,7 @@ export class User {
   @Column({ nullable: true })
   avatar: string;
 
-  @Column({ type: 'enum', enum: TeacherStatus, nullable: true })
+  @Column({ type: 'simple-enum', enum: TeacherStatus, nullable: true })
   teacherStatus: TeacherStatus;
 
   @Column({ nullable: true, type: 'text' })

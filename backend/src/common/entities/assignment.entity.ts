@@ -29,7 +29,7 @@ export class Assignment {
   @Column()
   teacherId: string;
 
-  @Column({ type: 'enum', enum: AssignmentType, default: AssignmentType.TEXT })
+  @Column({ type: 'simple-enum', enum: AssignmentType, default: AssignmentType.TEXT })
   type: AssignmentType;
 
   @Column({ type: 'simple-json', nullable: true })

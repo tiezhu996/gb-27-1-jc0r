@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { LiveClass } from './live-class.entity';
+import { CheckInSession } from './check-in-session.entity';
 import { User } from './user.entity';
 
 export enum AttendanceStatus {
@@ -19,7 +20,10 @@ export class AttendanceRecord {
   @Column()
   studentId: string;
 
-  @Column({ type: 'enum', enum: AttendanceStatus, default: AttendanceStatus.ABSENT })
+  @Column({ nullable: true })
+  sessionId: string;
+
+  @Column({ type: 'simple-enum', enum: AttendanceStatus, default: AttendanceStatus.ABSENT })
   status: AttendanceStatus;
 
   @Column({ type: 'timestamp', nullable: true })
@@ -31,6 +35,10 @@ export class AttendanceRecord {
   @ManyToOne(() => LiveClass)
   @JoinColumn({ name: 'liveClassId' })
   liveClass: LiveClass;
+
+  @ManyToOne(() => CheckInSession)
+  @JoinColumn({ name: 'sessionId' })
+  session: CheckInSession;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'studentId' })

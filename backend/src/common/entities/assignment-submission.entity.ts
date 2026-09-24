@@ -27,7 +27,7 @@ export class AssignmentSubmission {
   @Column({ type: 'simple-array', nullable: true })
   attachmentUrls: string[];
 
-  @Column({ type: 'enum', enum: SubmissionStatus, default: SubmissionStatus.SUBMITTED })
+  @Column({ type: 'simple-enum', enum: SubmissionStatus, default: SubmissionStatus.SUBMITTED })
   status: SubmissionStatus;
 
   @Column({ type: 'int', nullable: true })

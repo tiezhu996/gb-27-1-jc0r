@@ -27,7 +27,7 @@ export class Course {
   @Column({ type: 'text' })
   description: string;
 
-  @Column({ type: 'enum', enum: CourseType, default: CourseType.FREE })
+  @Column({ type: 'simple-enum', enum: CourseType, default: CourseType.FREE })
   type: CourseType;
 
   @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
@@ -39,7 +39,7 @@ export class Course {
   @Column('simple-array', { default: [] })
   tags: string[];
 
-  @Column({ type: 'enum', enum: CourseStatus, default: CourseStatus.DRAFT })
+  @Column({ type: 'simple-enum', enum: CourseStatus, default: CourseStatus.DRAFT })
   status: CourseStatus;
 
   @Column()

@@ -107,10 +107,23 @@ CREATE TABLE IF NOT EXISTS assignment_submissions (
   UNIQUE(assignment_id, student_id)
 );
 
+CREATE TABLE IF NOT EXISTS check_in_sessions (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  live_class_id UUID NOT NULL REFERENCES live_classes(id) ON DELETE CASCADE,
+  duration_minutes INT NOT NULL,
+  late_grace_minutes INT NOT NULL DEFAULT 0,
+  started_at TIMESTAMP NOT NULL,
+  status VARCHAR(20) NOT NULL DEFAULT 'active',
+  closed_at TIMESTAMP,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS attendance_records (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   live_class_id UUID NOT NULL REFERENCES live_classes(id) ON DELETE CASCADE,
   student_id UUID NOT NULL REFERENCES users(id),
+  session_id UUID REFERENCES check_in_sessions(id),
   status VARCHAR(20) NOT NULL DEFAULT 'absent',
   check_in_time TIMESTAMP,
   sign_in_duration INT NOT NULL DEFAULT 0,
@@ -131,3 +144,5 @@ CREATE INDEX IF NOT EXISTS idx_submissions_assignment ON assignment_submissions(
 CREATE INDEX IF NOT EXISTS idx_submissions_student ON assignment_submissions(student_id);
 CREATE INDEX IF NOT EXISTS idx_attendance_live ON attendance_records(live_class_id);
 CREATE INDEX IF NOT EXISTS idx_attendance_student ON attendance_records(student_id);
+CREATE INDEX IF NOT EXISTS idx_attendance_session ON attendance_records(session_id);
+CREATE INDEX IF NOT EXISTS idx_check_in_sessions_live ON check_in_sessions(live_class_id);

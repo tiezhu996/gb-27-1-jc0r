@@ -21,7 +21,7 @@ export class CourseEnrollment {
   @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
   progress: number;
 
-  @Column({ type: 'enum', enum: EnrollmentStatus, default: EnrollmentStatus.ACTIVE })
+  @Column({ type: 'simple-enum', enum: EnrollmentStatus, default: EnrollmentStatus.ACTIVE })
   status: EnrollmentStatus;
 
   @Column({ type: 'timestamp', nullable: true })
